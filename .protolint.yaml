@@ -1,0 +1,4 @@
+lint:
+  rules:
+    add:
+      - NO_SHARED_REPEATED_MESSAGE

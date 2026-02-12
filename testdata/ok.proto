@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package example;
+
+message ItemInfo {
+  string id = 1;
+}
+
+// OK: ItemInfo is used as repeated in only one message.
+message CreateOrderRequest {
+  repeated ItemInfo items = 1;
+}
+
+// OK: ItemInfo is used as a non-repeated (singular) field here.
+message GetOrderResponse {
+  ItemInfo item = 1;
+}
+
+// OK: scalar repeated fields are not subject to this rule.
+message ListRequest {
+  repeated string ids = 1;
+}

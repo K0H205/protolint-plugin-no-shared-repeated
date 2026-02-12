@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package example;
+
+message Tag {
+  string name = 1;
+}
+
+// Same type used as repeated twice in the SAME message.
+// This should NOT trigger a violation.
+message Article {
+  repeated Tag primary_tags = 1;
+  repeated Tag secondary_tags = 2;
+}

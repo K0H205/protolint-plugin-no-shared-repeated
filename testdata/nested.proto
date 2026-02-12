@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package example;
+
+message ItemInfo {
+  string id = 1;
+}
+
+message Outer {
+  repeated ItemInfo items = 1;
+
+  message Inner {
+    repeated ItemInfo items = 1;
+  }
+}

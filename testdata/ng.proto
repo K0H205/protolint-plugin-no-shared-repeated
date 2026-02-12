@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package example;
+
+message ItemInfo {
+  string id = 1;
+  string name = 2;
+}
+
+// NG: ItemInfo is used as a repeated field in multiple messages.
+
+message CreateOrderRequest {
+  repeated ItemInfo items = 1;
+  string order_id = 2;
+}
+
+message GetOrderResponse {
+  string order_id = 1;
+  repeated ItemInfo items = 2;
+}
