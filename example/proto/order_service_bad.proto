@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package example.order.v1;
+
+// === BAD PATTERN ===
+// ItemInfo is shared as a repeated field across multiple messages.
+// When you add a field for CreateOrderRequest (e.g. "quantity"),
+// it also leaks into GetOrderResponse, violating the single
+// responsibility principle.
+
+message ItemInfo {
+  string item_id = 1;
+  string name = 2;
+  int64 price_cents = 3;
+}
+
+message CreateOrderRequest {
+  string customer_id = 1;
+  repeated ItemInfo items = 2;      // NG: ItemInfo used as repeated here...
+  string shipping_address = 3;
+}
+
+message GetOrderResponse {
+  string order_id = 1;
+  string status = 2;
+  repeated ItemInfo items = 3;      // NG: ...and also here!
+  int64 total_price_cents = 4;
+}
+
+message ListRecommendationsResponse {
+  string category = 1;
+  repeated ItemInfo items = 2;      // NG: and here too!
+}

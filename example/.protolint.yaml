@@ -1,0 +1,6 @@
+lint:
+  rules:
+    # Disable all built-in rules so we only see our custom plugin's output.
+    all_default: false
+    add:
+      - NO_SHARED_REPEATED_MESSAGE
