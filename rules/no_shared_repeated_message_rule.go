@@ -18,17 +18,14 @@ import (
 // inadvertently affects the other.
 type NoSharedRepeatedMessageRule struct{}
 
-// NewNoSharedRepeatedMessageRule creates a new rule instance.
 func NewNoSharedRepeatedMessageRule() NoSharedRepeatedMessageRule {
 	return NoSharedRepeatedMessageRule{}
 }
 
-// ID returns the rule identifier.
 func (r NoSharedRepeatedMessageRule) ID() string {
 	return "NO_SHARED_REPEATED_MESSAGE"
 }
 
-// Purpose returns a human-readable description of the rule.
 func (r NoSharedRepeatedMessageRule) Purpose() string {
 	return `Verifies that a message type is not used as a repeated field in multiple different messages.`
 }
@@ -38,12 +35,10 @@ func (r NoSharedRepeatedMessageRule) IsOfficial() bool {
 	return false
 }
 
-// Severity returns the severity level for violations.
 func (r NoSharedRepeatedMessageRule) Severity() rule.Severity {
 	return rule.SeverityWarning
 }
 
-// Apply runs the rule against the parsed proto file.
 func (r NoSharedRepeatedMessageRule) Apply(proto *parser.Proto) ([]report.Failure, error) {
 	v := &noSharedRepeatedVisitor{
 		BaseAddVisitor: visitor.NewBaseAddVisitor(r.ID(), string(r.Severity())),
@@ -120,7 +115,6 @@ func isMessageType(typeName string) bool {
 	return unicode.IsUpper(rune(typeName[0]))
 }
 
-// distinctParents returns a deduplicated list of parent message names.
 func distinctParents(infos []usageInfo) []string {
 	seen := make(map[string]struct{})
 	var result []string

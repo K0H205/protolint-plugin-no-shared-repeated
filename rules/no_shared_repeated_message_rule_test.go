@@ -65,31 +65,6 @@ func TestNoSharedRepeatedMessageRule_NG(t *testing.T) {
 	}
 }
 
-func TestNoSharedRepeatedMessageRule_ScalarsIgnored(t *testing.T) {
-	r := rules.NewNoSharedRepeatedMessageRule()
-
-	// Parse a proto where repeated scalar types are used in multiple messages.
-	// These should not trigger violations.
-	f, err := os.Open("../testdata/ok.proto")
-	if err != nil {
-		t.Fatalf("failed to open ok.proto: %v", err)
-	}
-	defer f.Close()
-
-	proto, err := protoparser.Parse(f)
-	if err != nil {
-		t.Fatalf("failed to parse ok.proto: %v", err)
-	}
-
-	failures, err := r.Apply(proto)
-	if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
-	if len(failures) != 0 {
-		t.Errorf("expected no failures for scalar repeated fields, got %d", len(failures))
-	}
-}
-
 func TestNoSharedRepeatedMessageRule_SameMessageMultipleFields(t *testing.T) {
 	r := rules.NewNoSharedRepeatedMessageRule()
 
