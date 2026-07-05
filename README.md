@@ -43,6 +43,30 @@ lint:
 - A message type used as `repeated` in only **one** message is OK.
 - Non-repeated (singular) message fields are not checked.
 - Scalar types (`string`, `int32`, etc.) are not checked.
+- Enum types defined in the same file are not checked (sharing an enum does not have the same evolution problem as sharing a message).
+- Type references are resolved within the file, following protobuf scoping rules:
+  - `ItemInfo`, `example.ItemInfo`, and `.example.ItemInfo` are recognized as the same type when they refer to the same definition.
+  - Nested types with the same short name in different scopes (e.g. `A.Item` vs `B.Item`) are treated as distinct types.
+- Nested parent messages are reported by their full path (e.g. `Outer.Inner`).
+- Failures are reported in file-position order.
+
+## Options
+
+### `-allowed_types`
+
+Some types are intentionally shared (e.g. `google.protobuf.Timestamp` or a common `Money` type). Pass a comma-separated list of type names to exclude them from this rule. The flag is passed to the plugin binary itself inside the `-plugin` value:
+
+```bash
+protolint lint -plugin "./protolint-plugin-no-shared-repeated -allowed_types=google.protobuf.Timestamp,example.Money" your_file.proto
+```
+
+Names are matched against both the reference as written in the field and the resolved package-relative name, with any leading dot ignored.
+
+## Limitations
+
+- **Per-file analysis only.** protolint applies plugin rules to one file at a time, so a type imported and used as `repeated` in messages across *different* `.proto` files is not detected.
+- **Imported types are matched textually.** Types defined in other files (e.g. `google.protobuf.Timestamp`) cannot be fully resolved; different spellings are normalized (leading dot and own-package prefix stripped) but aliasing beyond that is not handled.
+- **Imported enum types are reported like messages.** Only enums defined in the same file are auto-excluded; use `-allowed_types` for imported enums.
 
 ## Example Output
 

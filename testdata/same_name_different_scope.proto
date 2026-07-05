@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package example;
+
+// OK: each "Item" is a different nested type (A.Item vs B.Item), so the
+// repeated usages do not share a type even though the short names match.
+message A {
+  message Item {
+    string id = 1;
+  }
+  repeated Item items = 1;
+}
+
+message B {
+  message Item {
+    string name = 1;
+  }
+  repeated Item items = 1;
+}

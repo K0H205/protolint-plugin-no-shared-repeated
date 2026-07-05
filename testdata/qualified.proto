@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package example;
+
+message ItemInfo {
+  string id = 1;
+}
+
+// NG: "example.ItemInfo" and "ItemInfo" refer to the same type, so this is
+// still a shared repeated usage across two messages.
+message CreateOrderRequest {
+  repeated example.ItemInfo items = 1;
+}
+
+message GetOrderResponse {
+  repeated ItemInfo items = 1;
+}

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package example;
+
+enum Status {
+  STATUS_UNSPECIFIED = 0;
+  STATUS_ACTIVE = 1;
+}
+
+// OK: enum types are not subject to this rule even when shared as repeated.
+message ListUsersResponse {
+  repeated Status statuses = 1;
+}
+
+message ListGroupsResponse {
+  repeated Status statuses = 1;
+}

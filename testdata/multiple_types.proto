@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package example;
+
+message ItemInfo {
+  string id = 1;
+}
+
+message UserInfo {
+  string id = 1;
+}
+
+// NG: two different types are each shared as repeated across two messages.
+// Used to verify that failures are reported in file-position order.
+message FirstRequest {
+  repeated UserInfo users = 1;
+  repeated ItemInfo items = 2;
+}
+
+message SecondRequest {
+  repeated ItemInfo items = 1;
+  repeated UserInfo users = 2;
+}

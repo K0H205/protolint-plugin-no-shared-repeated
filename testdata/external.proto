@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package example;
+
+import "google/protobuf/timestamp.proto";
+
+// google.protobuf.Timestamp is shared as repeated in two messages. This is
+// reported by default but can be excluded via the allowed_types option.
+message AuditLog {
+  repeated google.protobuf.Timestamp checkpoints = 1;
+}
+
+message BackupSchedule {
+  repeated google.protobuf.Timestamp run_times = 1;
+}
